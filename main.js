@@ -1,37 +1,56 @@
-/* Portfolio Asma Kerkouri — content + bilingual FR / EN */
+/* Portfolio Asma Kerkouri — content, bilingual FR / EN, animations */
 (() => {
   const GH = "https://github.com/asmakerkouri/";
+  const ICONS = window.ICONS || {};
+  const still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   // ------------------------------------------------------------------ texts
   const EN = {
-    "nav.about": "About", "nav.experience": "Experience", "nav.projects": "Projects", "nav.skills": "Skills",
+    "nav.expertise": "Expertise", "nav.experience": "Experience", "nav.projects": "Projects", "nav.skills": "Stack",
     "nav.contact": "Contact", "cta.cv": "Resume", "cta.download": "Download my resume", "cta.projects": "See my projects",
     "hero.status": "Available now · permanent role · Paris area / anywhere in France",
-    "hero.role": "AI Engineer · 3D Vision · Agents & LLMs",
-    "hero.lead": "I build AI systems that work in the real world: 3D perception for inspection robots, LLM agents connected to tools, and models shipped to production with Docker and CI/CD.",
+    "hero.lead": "AI engineer. I build systems that see, understand and act: 3D perception for inspection robots, LLM agents connected to tools, and models deployed to the cloud with Docker and CI/CD.",
     "stats.repos": "open-source projects", "stats.xp": "industry and research experiences",
     "stats.masters": "Master's degrees in computer science", "stats.lang": "languages: FR · EN · TR",
-    "about.title": "About",
-    "about.p1": "AI engineer specialised in <strong>3D computer vision</strong>: point clouds, photogrammetry and defect detection. During my internship at <strong>Builder Assist</strong>, I built the perception chain of a construction-site inspection robot, from ToF camera acquisition to driving a Schneider Electric robot arm with ROS 2.",
-    "about.p2": "At <strong>Octa Digital</strong>, I put <strong>LLMs and RAG</strong> into production behind FastAPI services, with automated tests and continuous deployment. Today I build <strong>AI agents</strong> that use tools reliably: guardrails, tracing and measured evaluation.",
-    "focus.3d": "3D vision", "focus.3d.d": "ICP/NDT registration, stitching, defect detection, ToF photogrammetry",
-    "focus.agents": "Agents & LLMs", "focus.agents.d": "MCP, tool calling, hybrid RAG, guardrails, voice chat",
-    "focus.ops.d": "FastAPI, Docker, CI/CD, MLflow, DVC, AWS",
-    "focus.robot": "Robotics", "focus.robot.d": "ROS 2, MoveIt 2, Gazebo, Schneider Electric robot arm",
+    "exp4.title": "Four fields, one goal: AI that runs in production",
+    "d.cv": "Computer Vision 2D / 3D", "d.cv.h": "Seeing and measuring the real world",
+    "d.cv.p": "Point clouds, ICP/NDT registration, ToF photogrammetry, defect and skeleton detection with YOLO11, SAM and Open3D.",
+    "d.ai": "AI agents & LLMs", "d.ai.h": "Agents that act, safely",
+    "d.ai.p": "Tool calling, Model Context Protocol, hybrid RAG, voice chat, with guardrails, human approval and measured evaluation.",
+    "d.cloud": "Cloud & MLOps", "d.cloud.h": "Models served at scale",
+    "d.cloud.p": "FastAPI services, AWS (EC2, S3, ECR, Bedrock, API Gateway), Kubernetes, Terraform, experiment tracking with MLflow and DVC.",
+    "d.ops": "DevOps & CI/CD", "d.ops.h": "From commit to production",
+    "d.ops.p": "Docker, GitHub Actions, GitLab CI, automated tests, security scanning, continuous deployment and GitOps.",
+    "about.p1": "Specialised in <strong>3D computer vision</strong>, I built at <strong>Builder Assist</strong> the perception chain of a construction-site inspection robot, from ToF camera acquisition to driving a Schneider Electric robot arm with ROS 2.",
+    "about.p2": "At <strong>Octa Digital</strong>, I put <strong>LLMs, RAG and AI agents</strong> into production behind FastAPI services, with automated tests and continuous deployment. What drives me: AI systems that are reliable, measured and deployed.",
     "exp.title": "Experience", "proj.title": "Projects",
     "proj.sub": "Public code, measured results and detailed READMEs on GitHub.",
-    "proj.all": "All repositories on GitHub →", "skills.title": "Skills", "edu.title": "Education",
+    "proj.all": "All repositories on GitHub →", "skills.title": "Technical skills", "edu.title": "Education",
     "edu.m1": "MSc Computer Science: IoT Services and Systems (SSIO)", "edu.m1.d": "Embedded AI, distributed systems, networks",
     "edu.m2": "MSc Computer Science: Advanced Information Systems Engineering (ISIA)",
     "edu.m2.d": "Software architecture, business intelligence, big data",
-    "contact.title": "Contact",
-    "contact.lead": "A role in AI, computer vision or MLOps? Write to me, I answer quickly.",
+    "contact.title": "Let's work together",
+    "contact.lead": "A role in AI, computer vision, MLOps or cloud? Write to me, I answer quickly.",
     "contact.where": "location", "contact.loc": "Paris area · open to relocation in France",
     "form.name": "Name", "form.email": "Email", "form.company": "Company (optional)", "form.message": "Message",
     "form.send": "Send", "form.sent": "Thank you, your message has been sent.", "footer.top": "Back to top ↑",
   };
   const FR = {};
   document.querySelectorAll("[data-i18n]").forEach((el) => { FR[el.dataset.i18n] = el.innerHTML; });
+
+  const ROLES = {
+    fr: ["Ingénieure IA", "Computer Vision 2D / 3D", "Agents IA & LLM", "MLOps & Cloud AWS", "DevOps · Docker · CI/CD"],
+    en: ["AI Engineer", "Computer Vision 2D / 3D", "AI agents & LLMs", "MLOps & AWS cloud", "DevOps · Docker · CI/CD"],
+  };
+
+  const YAML = {
+    fr: [["name", "Asma Kerkouri"], ["role", "Ingénieure IA"], ["focus", "[computer-vision-3d, ai-agents, mlops]"],
+         ["stack", "[python, pytorch, open3d, fastapi, docker, aws]"], ["education", "2 x Master informatique"],
+         ["languages", "[fr, en, tr]"], ["location", "Île-de-France"], ["open_to_work", "true"]],
+    en: [["name", "Asma Kerkouri"], ["role", "AI Engineer"], ["focus", "[computer-vision-3d, ai-agents, mlops]"],
+         ["stack", "[python, pytorch, open3d, fastapi, docker, aws]"], ["education", "2 x MSc computer science"],
+         ["languages", "[fr, en, tr]"], ["location", "Paris area, France"], ["open_to_work", "true"]],
+  };
 
   const EXPERIENCE = [
     { title: ["Ingénieure IA freelance (agents IA et LLM)", "Freelance AI Engineer (AI agents & LLMs)"], co: "Octa Digital",
@@ -88,114 +107,159 @@
       chips: ["Python", "Microservices", "Real time"] },
   ];
 
-  const CATS = { all: ["Tous", "All"], "3d": ["Vision 3D", "3D vision"], agent: ["Agents IA & LLM", "AI agents & LLMs"],
-                 ops: ["MLOps & DevOps", "MLOps & DevOps"], data: ["Data & IoT", "Data & IoT"] };
-  const TAG = { "3d": "t-3d", agent: "t-agent", ops: "t-ops", data: "t-data" };
+  const CATS = { all: ["Tous", "All"], cv: ["Computer Vision 3D", "3D Computer Vision"], ai: ["Agents IA & LLM", "AI agents & LLMs"],
+                 ops: ["Cloud, MLOps & DevOps", "Cloud, MLOps & DevOps"], data: ["Data & IoT", "Data & IoT"] };
+  const COLOR = { cv: "var(--c-cv)", ai: "var(--c-ai)", ops: "var(--c-ops)", data: "var(--c-cloud)" };
 
   const PROJECTS = [
-    { repo: "inspection-agent-3d", cat: "3d", also: "agent", star: true,
+    { repo: "inspection-agent-3d", cat: "cv", also: "ai", star: true, img: true,
       name: ["Agent d'inspection 3D", "3D inspection agent"],
       desc: ["Un agent IA pilote des outils de nuages de points : recalage, détection et mesure des défauts, contrôle des tolérances et rapport de réception du mur.",
              "An AI agent drives point-cloud tools: registration, defect detection and measurement, tolerance check and hand-over report."],
       metric: ["47/47 défauts trouvés · 14/14 décisions correctes", "47/47 defects found · 14/14 correct decisions"],
       chips: ["Open3D", "Tool calling", "DBSCAN", "ICP"] },
-    { repo: "point-cloud-defect-inspection", cat: "3d", star: true,
+    { repo: "point-cloud-defect-inspection", cat: "cv", star: true, img: true,
       name: ["Inspection 3D de surfaces", "3D surface inspection"],
       desc: ["Recalage FPFH + RANSAC + ICP sur la géométrie de référence, carte d'écarts signée, détection et classification des bosses, creux et fissures.",
              "FPFH + RANSAC + ICP registration onto the reference geometry, signed deviation map, detection and classification of bumps, hollows and cracks."],
       metric: ["Recalage à 2,7 mm d'erreur · API FastAPI", "2.7 mm registration error · FastAPI service"],
       chips: ["Open3D", "RANSAC", "ICP", "FastAPI", "Docker"] },
-    { repo: "pose-estimation-analytics", cat: "3d", star: true,
+    { repo: "pose-estimation-analytics", cat: "cv", star: true, img: true,
       name: ["Détection de squelette humain", "Human pose estimation"],
       desc: ["17 points du squelette avec YOLO11-pose, angles articulaires, reconnaissance de posture et compteur de répétitions, servis par une API.",
              "17 skeleton keypoints with YOLO11-pose, joint angles, posture recognition and a repetition counter, served by an API."],
       metric: ["Export ONNX : inférence 30 % plus rapide sur CPU", "ONNX export: 30 % faster CPU inference"],
       chips: ["YOLO11-pose", "ONNX", "FastAPI", "Docker"] },
-    { repo: "ros2-slam-turtlebot3", cat: "3d",
-      name: ["Cartographie SLAM sous ROS 2", "SLAM mapping with ROS 2"],
-      desc: ["Exploration autonome et cartographie en temps réel dans Gazebo avec slam_toolbox, exécutée sans écran dans Docker.",
-             "Autonomous exploration and real-time mapping in Gazebo with slam_toolbox, running headless in Docker."],
-      metric: ["ROS 2 Jazzy · simulation reproductible", "ROS 2 Jazzy · reproducible simulation"],
-      chips: ["ROS 2", "SLAM", "Gazebo", "Docker"] },
-    { repo: "mcp-agent-guardrails", cat: "agent", star: true,
+    { repo: "mcp-agent-guardrails", cat: "ai", star: true, img: true,
       name: ["Agent MCP avec garde-fous", "MCP agent with guardrails"],
       desc: ["Agent connecté à des outils par le Model Context Protocol : politique d'accès, validation humaine, masquage des secrets, détection d'injection de prompt, traces.",
              "Agent using tools through the Model Context Protocol: access policy, human approval, secret redaction, prompt-injection flagging, tracing."],
       metric: ["38/38 décisions correctes en red-team", "38/38 correct red-team decisions"],
       chips: ["MCP", "LLM", "Security", "Tracing"] },
-    { repo: "text-to-sql-agent", cat: "agent", star: true,
+    { repo: "text-to-sql-agent", cat: "ai", star: true, img: true,
       name: ["Agent Text-to-SQL", "Text-to-SQL agent"],
       desc: ["Une question en langage naturel devient une requête SQL en lecture seule, auto-corrigée à partir du schéma, puis un graphique.",
              "A plain-English question becomes a read-only SQL query, self-corrected from the schema, then a chart."],
       metric: ["105/106 erreurs SQL de LLM réparées · 20/20 attaques bloquées", "105/106 LLM SQL errors repaired · 20/20 attacks blocked"],
       chips: ["LLM", "sqlglot", "FastAPI", "Guardrails"] },
-    { repo: "voice-agent-assistant", cat: "agent",
-      name: ["Assistant vocal (voice chat)", "Voice assistant (voice chat)"],
-      desc: ["Assistant mains libres pour techniciens de chantier : Whisper, appel d'outils, synthèse vocale Piper, 100 % hors ligne sur CPU.",
-             "Hands-free assistant for site technicians: Whisper, tool calling, Piper speech synthesis, fully offline on CPU."],
-      metric: ["480 ms par échange · 8 % d'erreur de mots", "480 ms per turn · 8 % word error rate"],
-      chips: ["Whisper", "Piper", "Silero VAD", "FastAPI"] },
-    { repo: "arxiv-rag-multiagent", cat: "agent",
-      name: ["Assistant de recherche RAG multi-agents", "Multi-agent RAG research assistant"],
-      desc: ["Graphe d'agents LangGraph : recherche arXiv, recherche hybride BM25 + vecteurs fusionnée par RRF, réponses citées via AWS Bedrock.",
-             "LangGraph agent graph: arXiv search, hybrid BM25 + vector retrieval fused with RRF, cited answers through AWS Bedrock."],
-      metric: ["RAG hybride · évaluation BEIR SciFact", "Hybrid RAG · BEIR SciFact evaluation"],
-      chips: ["LangGraph", "RAG", "AWS Bedrock", "Gradio"] },
-    { repo: "mlops-yolo-fastapi", cat: "ops", star: true,
+    { repo: "mlops-yolo-fastapi", cat: "ops", also: "cv", star: true, img: true,
       name: ["Pipeline MLOps de détection d'objets", "Object-detection MLOps pipeline"],
       desc: ["Entraînement YOLO11 reproductible avec DVC et MLflow, API FastAPI instrumentée, image Docker et CI/CD jusqu'à GHCR et AWS ECR.",
              "Reproducible YOLO11 training with DVC and MLflow, instrumented FastAPI service, Docker image and CI/CD to GHCR and AWS ECR."],
       metric: ["Lint · tests · build · scan Trivy · publication", "Lint · tests · build · Trivy scan · publish"],
       chips: ["DVC", "MLflow", "FastAPI", "GitHub Actions"] },
-    { repo: "k8s-terraform-ml-platform", cat: "ops",
+    { repo: "voice-agent-assistant", cat: "ai", img: true,
+      name: ["Assistant vocal (voice chat)", "Voice assistant (voice chat)"],
+      desc: ["Assistant mains libres pour techniciens de chantier : Whisper, appel d'outils, synthèse vocale Piper, 100 % hors ligne sur CPU.",
+             "Hands-free assistant for site technicians: Whisper, tool calling, Piper speech synthesis, fully offline on CPU."],
+      metric: ["480 ms par échange · 8 % d'erreur de mots", "480 ms per turn · 8 % word error rate"],
+      chips: ["Whisper", "Piper", "Silero VAD", "FastAPI"] },
+    { repo: "arxiv-rag-multiagent", cat: "ai", img: true,
+      name: ["Assistant de recherche RAG multi-agents", "Multi-agent RAG research assistant"],
+      desc: ["Graphe d'agents LangGraph : recherche arXiv, recherche hybride BM25 + vecteurs fusionnée par RRF, réponses citées via AWS Bedrock.",
+             "LangGraph agent graph: arXiv search, hybrid BM25 + vector retrieval fused with RRF, cited answers through AWS Bedrock."],
+      metric: ["RAG hybride · évaluation BEIR SciFact", "Hybrid RAG · BEIR SciFact evaluation"],
+      chips: ["LangGraph", "RAG", "AWS Bedrock", "Gradio"] },
+    { repo: "k8s-terraform-ml-platform", cat: "ops", art: "k8s",
       name: ["Plateforme ML sur Kubernetes", "ML platform on Kubernetes"],
       desc: ["Infrastructure AWS (VPC, EKS, ECR) en Terraform, chart Helm avec autoscaling, monitoring Prometheus / Grafana, exécutable en local sur kind.",
              "AWS infrastructure (VPC, EKS, ECR) in Terraform, Helm chart with autoscaling, Prometheus / Grafana monitoring, runnable locally on kind."],
       metric: ["Infrastructure as code · CI de validation", "Infrastructure as code · validation CI"],
       chips: ["Terraform", "Kubernetes", "Helm", "AWS"] },
-    { repo: "gitops-argocd-ml", cat: "ops",
+    { repo: "gitops-argocd-ml", cat: "ops", art: "gitops",
       name: ["Déploiement GitOps avec Argo CD", "GitOps deployment with Argo CD"],
       desc: ["App of apps, environnements dev / prod par ApplicationSet, promotion par pull request, Sealed Secrets.",
              "App of apps, dev / prod environments with an ApplicationSet, promotion by pull request, Sealed Secrets."],
       metric: ["Déploiement déclaratif piloté par Git", "Declarative, Git-driven deployment"],
       chips: ["Argo CD", "GitOps", "Kubernetes"] },
-    { repo: "spark-taxi-lakehouse", cat: "data", star: true,
+    { repo: "ros2-slam-turtlebot3", cat: "cv", art: "slam",
+      name: ["Cartographie SLAM sous ROS 2", "SLAM mapping with ROS 2"],
+      desc: ["Exploration autonome et cartographie en temps réel dans Gazebo avec slam_toolbox, exécutée sans écran dans Docker.",
+             "Autonomous exploration and real-time mapping in Gazebo with slam_toolbox, running headless in Docker."],
+      metric: ["ROS 2 Jazzy · simulation reproductible", "ROS 2 Jazzy · reproducible simulation"],
+      chips: ["ROS 2", "SLAM", "Gazebo", "Docker"] },
+    { repo: "spark-taxi-lakehouse", cat: "data", star: true, img: true,
       name: ["Lakehouse Big Data PySpark", "PySpark big-data lakehouse"],
       desc: ["Architecture médaillon sur 5 millions de trajets : contrôle qualité avec quarantaine, Parquet partitionné, Spark SQL, MLlib, DAG Airflow.",
              "Medallion architecture on 5 million trips: data-quality quarantine, partitioned Parquet, Spark SQL, MLlib, Airflow DAG."],
       metric: ["5 M lignes · modèle MLlib R² 0,84", "5 M rows · MLlib model R² 0.84"],
       chips: ["PySpark", "MLlib", "Airflow", "Parquet"] },
-    { repo: "r-survival-analysis", cat: "data",
-      name: ["Analyse de survie en R", "Survival analysis in R"],
-      desc: ["Kaplan-Meier, tests du log-rank et modèle de Cox sur une cohorte publique de cancer du poumon, rapport R Markdown.",
-             "Kaplan-Meier, log-rank tests and Cox model on a public lung-cancer cohort, R Markdown report."],
-      metric: ["Statistiques médicales · rapport reproductible", "Medical statistics · reproducible report"],
-      chips: ["R", "survival", "R Markdown"] },
-    { repo: "edge-ai-iot-streaming", cat: "data",
+    { repo: "edge-ai-iot-streaming", cat: "data", img: true,
       name: ["Edge AI et streaming IoT", "Edge AI & IoT streaming"],
       desc: ["Prévisions en flux sur MQTT avec XGBoost, tableau de bord Grafana et modèle TensorFlow Lite pour Raspberry Pi.",
              "Streaming forecasts over MQTT with XGBoost, Grafana dashboard and a TensorFlow Lite model for Raspberry Pi."],
       metric: ["Modèle TFLite de 7 Ko", "7 KB TFLite model"],
       chips: ["MQTT", "XGBoost", "TFLite", "Grafana"] },
+    { repo: "r-survival-analysis", cat: "data", img: true,
+      name: ["Analyse de survie en R", "Survival analysis in R"],
+      desc: ["Kaplan-Meier, tests du log-rank et modèle de Cox sur une cohorte publique de cancer du poumon, rapport R Markdown.",
+             "Kaplan-Meier, log-rank tests and Cox model on a public lung-cancer cohort, R Markdown report."],
+      metric: ["Statistiques médicales · rapport reproductible", "Medical statistics · reproducible report"],
+      chips: ["R", "survival", "R Markdown"] },
   ];
+
+  // generated artwork for the repositories without result images
+  const ART = {
+    k8s: `<svg class="art" viewBox="0 0 360 178"><defs><radialGradient id="ak" cx=".5" cy=".3"><stop offset="0" stop-color="#1d3b6b"/><stop offset="1" stop-color="#0B1324"/></radialGradient></defs><rect width="360" height="178" fill="url(#ak)"/>
+      <path d="M40 40h280v100H40z" fill="none" stroke="#F59E0B" stroke-dasharray="6 5" stroke-width="1.5"/><text x="50" y="58" fill="#FCD34D" font-family="monospace" font-size="11">terraform apply → EKS</text>
+      ${[0, 1, 2, 3].map((i) => `<g><rect x="${70 + i * 58}" y="78" width="44" height="40" rx="8" fill="#13233F" stroke="#38BDF8" stroke-width="1.5"/><text x="${92 + i * 58}" y="103" fill="#7DD3FC" font-family="monospace" font-size="10" text-anchor="middle">pod</text></g>`).join("")}
+      <text x="180" y="160" fill="#92A1B9" font-family="monospace" font-size="10" text-anchor="middle">Helm · HPA · Prometheus · Grafana</text></svg>`,
+    gitops: `<svg class="art" viewBox="0 0 360 178"><rect width="360" height="178" fill="#0B1324"/>
+      <circle cx="70" cy="89" r="26" fill="#13233F" stroke="#F05032" stroke-width="2"/><text x="70" y="93" fill="#FCA5A5" font-family="monospace" font-size="11" text-anchor="middle">git</text>
+      <circle cx="180" cy="89" r="30" fill="#13233F" stroke="#EF7B4D" stroke-width="2"/><text x="180" y="93" fill="#FDBA74" font-family="monospace" font-size="11" text-anchor="middle">Argo CD</text>
+      <rect x="250" y="45" width="80" height="34" rx="8" fill="#13233F" stroke="#34D399"/><text x="290" y="66" fill="#6EE7B7" font-family="monospace" font-size="11" text-anchor="middle">dev</text>
+      <rect x="250" y="99" width="80" height="34" rx="8" fill="#13233F" stroke="#34D399"/><text x="290" y="120" fill="#6EE7B7" font-family="monospace" font-size="11" text-anchor="middle">prod</text>
+      <path d="M96 89h54M210 80l40-18M210 98l40 18" stroke="#92A1B9" stroke-dasharray="4 4" fill="none"/><text x="180" y="160" fill="#92A1B9" font-family="monospace" font-size="10" text-anchor="middle">sync · self-heal · promotion by PR</text></svg>`,
+    slam: (() => {
+      let s = '<svg class="art" viewBox="0 0 360 178"><rect width="360" height="178" fill="#0B1324"/>';
+      for (let x = 0; x < 360; x += 12) for (let y = 0; y < 178; y += 12) {
+        const inside = (x > 40 && x < 320 && y > 24 && y < 154) && !(x > 150 && x < 210 && y > 24 && y < 96);
+        const wall = inside && (x < 52 || x > 306 || y < 36 || y > 142 || (x > 138 && x < 222 && y < 108));
+        s += `<rect x="${x}" y="${y}" width="11" height="11" fill="${wall ? "#E8EEF8" : inside ? "#1B2A45" : "#0E1628"}"/>`;
+      }
+      return s + '<path d="M70 130 C 100 60, 130 140, 250 120 S 290 60, 280 50" fill="none" stroke="#38BDF8" stroke-width="2.5" stroke-dasharray="5 4"/><circle cx="280" cy="50" r="7" fill="#F87171"/></svg>';
+    })(),
+  };
 
   const SKILLS = [
-    [["Vision 2D/3D", "2D/3D vision"], "Open3D, PCL, OpenCV, COLMAP, MeshLab, ICP/NDT, photogrammétrie|photogrammetry, Luxonis OAK ToF"],
-    [["Deep learning", "Deep learning"], "PyTorch, TensorFlow/Keras, YOLO11, YOLO11-pose, ResNet, SAM, ONNX Runtime, CUDA/cuDNN"],
-    [["LLM et agents IA", "LLMs & AI agents"], "LangGraph, LangChain, MCP, tool calling, RAG, AWS Bedrock, voice chat, prompt engineering"],
-    [["Mise en production", "Production"], "FastAPI, Flask, Docker, Git, GitHub Actions, GitLab CI, MLflow, DVC, PyTest, Linux"],
-    [["Cloud et infrastructure", "Cloud & infrastructure"], "AWS EC2, AWS S3, AWS ECR, API Gateway, AWS Bedrock, Kubernetes, Terraform"],
-    [["Robotique", "Robotics"], "ROS 2, MoveIt 2, Gazebo, RViz, RoboDK, SLAM"],
-    [["Données", "Data"], "Apache Spark, Airflow, Pandas, Scikit-learn, XGBoost, SQL, MongoDB, Elasticsearch"],
-    [["Langages", "Languages"], "Python, C++, Java, JavaScript, R, SQL, MATLAB"],
+    { t: ["Computer Vision 2D/3D", "Computer Vision 2D/3D"], c: "var(--c-cv)", i: "👁️",
+      items: ["opencv", "Open3D", "PCL", "COLMAP", "MeshLab", "ICP / NDT", "YOLO11", "SAM", "Luxonis OAK ToF"] },
+    { t: ["Deep learning", "Deep learning"], c: "var(--c-cv)", i: "🧠",
+      items: ["pytorch", "tensorflow", "onnx", "nvidia:CUDA / cuDNN", "ResNet", "scikitlearn", "numpy", "pandas"] },
+    { t: ["Agents IA & LLM", "AI agents & LLMs"], c: "var(--c-ai)", i: "🤖",
+      items: ["langchain", "LangGraph", "MCP", "Tool calling", "RAG", "huggingface", "ollama", "AWS Bedrock", "Voice chat"] },
+    { t: ["Cloud & infrastructure", "Cloud & infrastructure"], c: "var(--c-cloud)", i: "☁️",
+      items: ["AWS EC2", "AWS S3", "AWS ECR", "AWS API Gateway", "kubernetes", "helm", "terraform", "linux", "ubuntu"] },
+    { t: ["MLOps & DevOps", "MLOps & DevOps"], c: "var(--c-ops)", i: "⚙️",
+      items: ["docker", "githubactions", "gitlab:GitLab CI", "git", "argo:Argo CD", "mlflow", "dvc", "fastapi", "flask", "prometheus", "grafana"] },
+    { t: ["Data, IoT & langages", "Data, IoT & languages"], c: "var(--c-cloud)", i: "📊",
+      items: ["python", "cplusplus", "Java", "JavaScript", "r", "SQL", "apachespark", "apacheairflow", "postgresql", "mongodb", "elasticsearch", "mqtt", "raspberrypi", "ros:ROS 2"] },
   ];
 
-  // ----------------------------------------------------------------- render
+  const MARQUEE = ["python", "pytorch", "tensorflow", "opencv", "onnx", "nvidia", "ros", "langchain", "huggingface", "ollama", "fastapi",
+    "docker", "kubernetes", "terraform", "AWS", "githubactions", "gitlab", "argo", "mlflow", "dvc", "apachespark", "apacheairflow",
+    "prometheus", "grafana", "linux", "postgresql", "mongodb", "raspberrypi"];
+
+  // ----------------------------------------------------------------- helpers
   let lang = "fr";
   let filter = "all";
   const L = (pair) => (Array.isArray(pair) ? pair[lang === "fr" ? 0 : 1] : pair);
-  const esc = (s) => s.replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" })[c]);
+  const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
   const chips = (list) => `<div class="chips">${list.map((c) => `<span class="chip">${esc(c)}</span>`).join("")}</div>`;
+  function icon(spec) {
+    const [slug, label] = spec.split(":");
+    if (slug === "AWS") return { svg: '<span class="aws">aws</span>', title: "Amazon Web Services" };
+    if (slug.startsWith("AWS ")) return { svg: '<span class="aws">aws</span>', title: slug.slice(4) };
+    const ic = ICONS[slug];
+    if (!ic) return { svg: "", title: label || slug };
+    return { svg: `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#${ic.h}" d="${ic.p}"/></svg>`, title: label || ic.t };
+  }
+
+  // ------------------------------------------------------------------ render
+  function renderMarquee() {
+    const one = MARQUEE.map((s) => { const i = icon(s); return `<span class="tech">${i.svg}${esc(i.title)}</span>`; }).join("");
+    document.getElementById("track").innerHTML = one + one;
+  }
 
   function renderTimeline() {
     document.getElementById("timeline").innerHTML = EXPERIENCE.map((e) => `
@@ -218,24 +282,52 @@
     const list = PROJECTS.filter((p) => filter === "all" || p.cat === filter || p.also === filter)
       .sort((a, b) => (filter === "all" ? (b.star ? 1 : 0) - (a.star ? 1 : 0) : 0));
     document.getElementById("cards").innerHTML = list.map((p) => `
-      <article class="card reveal in">
-        <span class="tag ${TAG[p.cat]}">${esc(L(CATS[p.cat]))}</span>
-        <h3><a href="${GH + p.repo}" target="_blank" rel="noopener">${esc(L(p.name))}</a></h3>
-        <p>${esc(L(p.desc))}</p>
-        <div class="metric">${esc(L(p.metric))}</div>
-        ${chips(p.chips)}
-        <div class="card-foot">
-          <a href="${GH + p.repo}" target="_blank" rel="noopener" class="mono">${p.repo} →</a>
-          ${p.star ? `<span class="star">★ ${lang === "fr" ? "à la une" : "featured"}</span>` : ""}
+      <article class="card" style="--c:${COLOR[p.cat]}">
+        <a class="thumb" href="${GH + p.repo}" target="_blank" rel="noopener" aria-label="${esc(L(p.name))}">
+          <span class="tag">${esc(L(CATS[p.cat]))}</span>
+          ${p.img ? `<img src="assets/projects/${p.repo}.jpg" alt="${esc(L(p.name))}">` : ART[p.art]}
+        </a>
+        <div class="card-body">
+          <h3><a href="${GH + p.repo}" target="_blank" rel="noopener">${esc(L(p.name))}</a></h3>
+          <p>${esc(L(p.desc))}</p>
+          <div class="metric">${esc(L(p.metric))}</div>
+          ${chips(p.chips)}
+          <div class="card-foot">
+            <a href="${GH + p.repo}" target="_blank" rel="noopener" class="mono">${p.repo} →</a>
+            ${p.star ? `<span class="star">★ ${lang === "fr" ? "à la une" : "featured"}</span>` : ""}
+          </div>
         </div>
       </article>`).join("");
   }
 
   function renderSkills() {
-    document.getElementById("skillgrid").innerHTML = SKILLS.map(([t, items]) => {
-      const list = items.split(", ").map((s) => (s.includes("|") ? s.split("|")[lang === "fr" ? 0 : 1] : s));
-      return `<div class="skill reveal"><h4>${esc(L(t))}</h4>${chips(list)}</div>`;
-    }).join("");
+    document.getElementById("skillgrid").innerHTML = SKILLS.map((g) => `
+      <div class="skill reveal" style="--c:${g.c}">
+        <h4><span class="ico">${g.i}</span>${esc(L(g.t))}</h4>
+        <div class="logos">${g.items.map((s) => { const i = icon(s); return `<span class="logo-chip">${i.svg}${esc(i.title)}</span>`; }).join("")}</div>
+      </div>`).join("");
+  }
+
+  function renderYaml() {
+    const html = YAML[lang].map(([k, v]) => {
+      const val = v === "true" ? `<span class="b">${v}</span>` : `<span class="s">${esc(v)}</span>`;
+      return `<span class="k">${k}</span>: ${val}`;
+    }).join("\n");
+    document.getElementById("yaml").innerHTML = `<span class="c"># ${lang === "fr" ? "profil" : "profile"}</span>\n` + html;
+  }
+
+  // typing effect
+  const typed = document.getElementById("typed");
+  let roleIdx = 0, charIdx = 0, deleting = false;
+  function type() {
+    const word = ROLES[lang][roleIdx];
+    if (still) { typed.textContent = ROLES[lang].slice(0, 3).join(" · "); return; }
+    charIdx += deleting ? -1 : 1;
+    typed.textContent = word.slice(0, charIdx);
+    let delay = deleting ? 35 : 75;
+    if (!deleting && charIdx === word.length) { deleting = true; delay = 1600; }
+    else if (deleting && charIdx === 0) { deleting = false; roleIdx = (roleIdx + 1) % ROLES[lang].length; delay = 300; }
+    setTimeout(type, delay);
   }
 
   function setLang(next) {
@@ -248,22 +340,43 @@
     });
     document.getElementById("lang").textContent = lang === "fr" ? "EN" : "FR";
     document.title = lang === "fr" ? "Asma Kerkouri · Ingénieure IA & Vision 3D" : "Asma Kerkouri · AI & 3D Vision Engineer";
-    renderTimeline(); renderFilters(); renderCards(); renderSkills(); observe();
+    renderTimeline(); renderFilters(); renderCards(); renderSkills(); renderYaml(); observe();
+    roleIdx = 0; charIdx = 0; deleting = false;
     try { localStorage.setItem("lang", lang); } catch (e) { /* private mode */ }
   }
 
-  // ------------------------------------------------------------- behaviour
+  // --------------------------------------------------------------- behaviour
   let io;
   function observe() {
-    if (!("IntersectionObserver" in window)) {
+    if (!("IntersectionObserver" in window) || still) {
       document.querySelectorAll(".reveal").forEach((el) => el.classList.add("in"));
       return;
     }
     io = io || new IntersectionObserver((entries) => entries.forEach((e) => {
       if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
-    }), { threshold: 0.12 });
+    }), { threshold: 0.1 });
     document.querySelectorAll(".reveal:not(.in)").forEach((el) => io.observe(el));
   }
+
+  function counters() {
+    document.querySelectorAll("[data-count]").forEach((el) => {
+      const end = +el.dataset.count;
+      if (still) { el.textContent = end; return; }
+      let v = 0;
+      const step = () => { v += 1; el.textContent = v; if (v < end) setTimeout(step, 900 / end); };
+      step();
+    });
+  }
+
+  const sections = [...document.querySelectorAll("main section[id]")];
+  const navLinks = [...document.querySelectorAll(".links a")];
+  window.addEventListener("scroll", () => {
+    const h = document.documentElement;
+    document.getElementById("progress").style.width = `${(100 * h.scrollTop) / (h.scrollHeight - h.clientHeight)}%`;
+    let current = "";
+    for (const s of sections) if (s.getBoundingClientRect().top < 140) current = s.id;
+    navLinks.forEach((a) => a.classList.toggle("active", a.getAttribute("href") === `#${current}`));
+  }, { passive: true });
 
   document.getElementById("filters").addEventListener("click", (e) => {
     const b = e.target.closest(".filter");
@@ -278,39 +391,82 @@
   document.getElementById("year").textContent = new Date().getFullYear();
   if (new URLSearchParams(location.search).has("sent")) document.getElementById("sent").hidden = false;
 
+  renderMarquee();
   let saved = null;
   try { saved = localStorage.getItem("lang"); } catch (e) { /* ignore */ }
   setLang(saved || ((navigator.language || "fr").toLowerCase().startsWith("fr") ? "fr" : "en"));
+  type();
+  counters();
 
-  // ------------------------------------------- rotating point cloud (hero)
+  // small point cloud in the computer-vision illustration
+  const pc = document.querySelector(".svg-cv .pc");
+  if (pc) {
+    let dots = "";
+    for (let i = 0; i < 160; i++) {
+      const x = 20 + Math.random() * 280, y = 140 + Math.sin(x / 30) * 8 + Math.random() * 18;
+      dots += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${(0.6 + Math.random()).toFixed(2)}" opacity="${(0.3 + Math.random() * 0.6).toFixed(2)}"/>`;
+    }
+    pc.innerHTML = dots;
+  }
+
+  // ------------------------------------------------ neural-network background
+  const net = document.getElementById("net");
+  const nctx = net.getContext("2d");
+  const nodes = Array.from({ length: 70 }, () => ({ x: Math.random(), y: Math.random(), vx: (Math.random() - 0.5) * 0.0006, vy: (Math.random() - 0.5) * 0.0006 }));
+  function drawNet() {
+    const w = net.clientWidth, h = net.clientHeight, dpr = window.devicePixelRatio || 1;
+    if (net.width !== Math.round(w * dpr)) { net.width = w * dpr; net.height = h * dpr; }
+    nctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    nctx.clearRect(0, 0, w, h);
+    for (const n of nodes) {
+      n.x += n.vx; n.y += n.vy;
+      if (n.x < 0 || n.x > 1) n.vx *= -1;
+      if (n.y < 0 || n.y > 1) n.vy *= -1;
+    }
+    for (let i = 0; i < nodes.length; i++) {
+      for (let j = i + 1; j < nodes.length; j++) {
+        const dx = (nodes[i].x - nodes[j].x) * w, dy = (nodes[i].y - nodes[j].y) * h, d = Math.hypot(dx, dy);
+        if (d < 140) {
+          nctx.strokeStyle = `rgba(99, 140, 230, ${0.22 * (1 - d / 140)})`;
+          nctx.beginPath(); nctx.moveTo(nodes[i].x * w, nodes[i].y * h); nctx.lineTo(nodes[j].x * w, nodes[j].y * h); nctx.stroke();
+        }
+      }
+      nctx.fillStyle = "rgba(125, 211, 252, .6)";
+      nctx.fillRect(nodes[i].x * w - 1, nodes[i].y * h - 1, 2, 2);
+    }
+    if (!still) requestAnimationFrame(drawNet);
+  }
+  drawNet();
+
+  // ------------------------------------------- rotating 3D point cloud (hero)
   const canvas = document.getElementById("cloud");
   const ctx = canvas.getContext("2d");
   const pts = [];
-  for (let i = 0; i < 900; i++) {           // a sphere of points, slightly noisy, with a "defect" bump
-    const u = Math.random() * 2 - 1, th = Math.random() * Math.PI * 2;
-    const s = Math.sqrt(1 - u * u);
-    let x = s * Math.cos(th), y = u, z = s * Math.sin(th);
-    const bump = Math.exp(-((x - 0.6) ** 2 + (y - 0.4) ** 2 + (z - 0.6) ** 2) / 0.05);
-    const r = 1 + 0.12 * bump + (Math.random() - 0.5) * 0.02;
+  for (let i = 0; i < 1100; i++) {           // noisy sphere with a "defect" bump, like a scanned surface
+    const u = Math.random() * 2 - 1, th = Math.random() * Math.PI * 2, s = Math.sqrt(1 - u * u);
+    const x = s * Math.cos(th), y = u, z = s * Math.sin(th);
+    const bump = Math.exp(-((x - 0.55) ** 2 + (y + 0.55) ** 2 + (z - 0.6) ** 2) / 0.05);
+    const r = 1 + 0.13 * bump + (Math.random() - 0.5) * 0.02;
     pts.push([x * r, y * r, z * r, bump]);
   }
-  const still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   let angle = 0;
-  function draw() {
+  function drawCloud() {
     const w = canvas.clientWidth, h = canvas.clientHeight, dpr = window.devicePixelRatio || 1;
-    if (canvas.width !== w * dpr) { canvas.width = w * dpr; canvas.height = h * dpr; }
+    if (canvas.width !== Math.round(w * dpr)) { canvas.width = w * dpr; canvas.height = h * dpr; }
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.clearRect(0, 0, w, h);
-    const R = Math.min(w, h) * 0.46, ca = Math.cos(angle), sa = Math.sin(angle), tilt = 0.35;
+    const R = Math.min(w, h) * 0.4, ca = Math.cos(angle), sa = Math.sin(angle), ct = Math.cos(0.35), st = Math.sin(0.35);
     for (const [x, y, z, b] of pts) {
       const x1 = x * ca + z * sa, z1 = -x * sa + z * ca;
-      const y1 = y * Math.cos(tilt) - z1 * Math.sin(tilt), z2 = y * Math.sin(tilt) + z1 * Math.cos(tilt);
+      const y1 = y * ct - z1 * st, z2 = y * st + z1 * ct;
       const depth = (z2 + 1.2) / 2.4;
-      ctx.fillStyle = b > 0.3 ? `rgba(229, 83, 75, ${0.35 + 0.6 * depth})` : `rgba(95, 180, 255, ${0.12 + 0.6 * depth})`;
-      ctx.fillRect(w / 2 + x1 * R, h / 2 + y1 * R, 1.3 + depth * 1.6, 1.3 + depth * 1.6);
+      if (b > 0.3) ctx.fillStyle = `rgba(248, 113, 113, ${0.35 + 0.6 * depth})`;
+      else ctx.fillStyle = `hsla(${200 + 60 * depth}, 90%, 70%, ${0.1 + 0.6 * depth})`;
+      const sz = 1.1 + depth * 1.7;
+      ctx.fillRect(w / 2 + x1 * R, h / 2 + y1 * R, sz, sz);
     }
     angle += 0.004;
-    if (!still) requestAnimationFrame(draw);
+    if (!still) requestAnimationFrame(drawCloud);
   }
-  draw();
+  drawCloud();
 })();

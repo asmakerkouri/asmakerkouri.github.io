@@ -4,27 +4,29 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Asma Kerkouri · Ingénieure IA & Vision 3D</title>
-<meta name="description" content="Asma Kerkouri, ingénieure IA : vision par ordinateur 2D/3D, nuages de points, agents IA et LLM, MLOps. Disponible immédiatement, Île-de-France.">
+<meta name="description" content="Asma Kerkouri, ingénieure IA : computer vision 2D/3D, agents IA et LLM, MLOps, cloud et DevOps. Disponible immédiatement, Île-de-France.">
 <meta property="og:title" content="Asma Kerkouri · AI & 3D Vision Engineer">
-<meta property="og:description" content="Computer vision 2D/3D, point clouds, AI agents & LLMs, MLOps. Portfolio and open-source projects.">
+<meta property="og:description" content="Computer vision 2D/3D, AI agents & LLMs, MLOps, cloud & DevOps. Portfolio and open-source projects.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://asmakerkouri.github.io/">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230B1220'/%3E%3Ctext x='32' y='42' font-family='Arial' font-size='28' font-weight='700' text-anchor='middle' fill='%231E90FF'%3EAK%3C/text%3E%3C/svg%3E">
+<meta name="theme-color" content="#070C17">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23070C17'/%3E%3Ctext x='32' y='42' font-family='Arial' font-size='28' font-weight='700' text-anchor='middle' fill='%2338BDF8'%3EAK%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<div class="progress" id="progress"></div>
 
 <header class="nav" id="top">
   <div class="wrap nav-inner">
-    <a class="logo" href="#top" aria-label="Asma Kerkouri">AK<span>.</span></a>
+    <a class="logo" href="#top" aria-label="Asma Kerkouri"><span class="logo-mark">AK</span><span class="logo-txt">asma<span>.</span>ai</span></a>
     <nav class="links" id="links">
-      <a href="#about" data-i18n="nav.about">Profil</a>
+      <a href="#expertise" data-i18n="nav.expertise">Expertise</a>
       <a href="#experience" data-i18n="nav.experience">Expérience</a>
       <a href="#projects" data-i18n="nav.projects">Projets</a>
-      <a href="#skills" data-i18n="nav.skills">Compétences</a>
+      <a href="#skills" data-i18n="nav.skills">Stack</a>
       <a href="#contact" data-i18n="nav.contact">Contact</a>
     </nav>
     <div class="nav-actions">
@@ -36,15 +38,17 @@
 </header>
 
 <main>
-  <!-- HERO -->
+  <!-- ================= HERO ================= -->
   <section class="hero">
-    <div class="grid-bg" aria-hidden="true"></div>
+    <canvas id="net" aria-hidden="true"></canvas>
+    <div class="glow g1" aria-hidden="true"></div>
+    <div class="glow g2" aria-hidden="true"></div>
     <div class="wrap hero-inner">
       <div class="hero-text">
         <p class="status"><span class="dot"></span><span data-i18n="hero.status">Disponible immédiatement · CDI · Île-de-France / mobilité France</span></p>
-        <h1>Asma Kerkouri</h1>
-        <p class="role mono" data-i18n="hero.role">Ingénieure IA · Vision 3D · Agents & LLM</p>
-        <p class="lead" data-i18n="hero.lead">Je conçois des systèmes d'IA qui fonctionnent dans le monde réel : perception 3D pour la robotique d'inspection, agents LLM connectés à des outils, et modèles mis en production avec Docker et CI/CD.</p>
+        <h1>Asma <span class="grad">Kerkouri</span></h1>
+        <p class="role mono"><span class="prompt">&gt;</span> <span id="typed"></span><span class="caret">▍</span></p>
+        <p class="lead" data-i18n="hero.lead">Ingénieure IA. Je construis des systèmes qui voient, comprennent et agissent : perception 3D pour la robotique d'inspection, agents LLM connectés à des outils, modèles déployés sur le cloud avec Docker et CI/CD.</p>
         <div class="cta">
           <a class="btn" href="assets/CV_Asma_Kerkouri.pdf" download><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0l-5-5m5 5l5-5M5 21h14"/></svg><span data-i18n="cta.download">Télécharger mon CV</span></a>
           <a class="btn btn-ghost" href="#projects" data-i18n="cta.projects">Voir mes projets</a>
@@ -55,87 +59,189 @@
           <a href="mailto:kerkouriasma@gmail.com" aria-label="Email"><svg viewBox="0 0 24 24"><path d="M3 6h18v12H3z"/><path d="m3 7 9 6 9-6"/></svg></a>
         </div>
       </div>
-      <div class="hero-visual">
+
+      <div class="hero-visual" aria-hidden="true">
+        <div class="ring r1"></div><div class="ring r2"></div>
+        <canvas id="cloud"></canvas>
         <div class="avatar">
-          <img src="assets/photo.jpg" alt="Asma Kerkouri" onerror="this.remove()">
+          <img src="assets/photo.jpg" alt="" onerror="this.remove()">
           <span class="initials">AK</span>
         </div>
-        <canvas id="cloud" aria-hidden="true"></canvas>
+        <div class="bbox"><span class="bbox-label mono">crack · 0.94</span></div>
+        <div class="float f1 mono"><i class="ok"></i>docker build ✓</div>
+        <div class="float f2 mono"><i class="ai"></i>agent → tool_call</div>
+        <div class="float f3 mono"><i class="cv"></i>ICP rmse 2.6 mm</div>
       </div>
     </div>
+
     <div class="wrap stats">
-      <div><b>14</b><span data-i18n="stats.repos">projets open source</span></div>
-      <div><b>6</b><span data-i18n="stats.xp">expériences en entreprise et en laboratoire</span></div>
-      <div><b>2</b><span data-i18n="stats.masters">Masters en informatique</span></div>
-      <div><b>3</b><span data-i18n="stats.lang">langues : FR · EN · TR</span></div>
+      <div><b data-count="14">0</b><span data-i18n="stats.repos">projets open source</span></div>
+      <div><b data-count="6">0</b><span data-i18n="stats.xp">expériences en entreprise et laboratoire</span></div>
+      <div><b data-count="2">0</b><span data-i18n="stats.masters">Masters en informatique</span></div>
+      <div><b data-count="3">0</b><span data-i18n="stats.lang">langues : FR · EN · TR</span></div>
     </div>
   </section>
 
-  <!-- ABOUT -->
-  <section id="about" class="section">
+  <!-- tech marquee -->
+  <div class="marquee" aria-label="Technologies">
+    <div class="track" id="track"></div>
+  </div>
+
+  <!-- ================= EXPERTISE ================= -->
+  <section id="expertise" class="section">
     <div class="wrap">
-      <h2 class="title"><span class="num mono">01</span><span data-i18n="about.title">Profil</span></h2>
+      <p class="kicker mono">// what I do</p>
+      <h2 class="title" data-i18n="exp4.title">Quatre domaines, un seul objectif&nbsp;: de l'IA qui tourne en production</h2>
+      <div class="domains">
+
+        <article class="domain reveal" style="--c: var(--c-cv)">
+          <div class="illu">
+            <svg viewBox="0 0 320 180" class="svg-cv">
+              <defs><linearGradient id="scan" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#38BDF8" stop-opacity="0"/><stop offset="1" stop-color="#38BDF8" stop-opacity=".55"/></linearGradient></defs>
+              <rect x="10" y="10" width="300" height="160" rx="10" class="frame"/>
+              <g class="pc"></g>
+              <rect x="40" y="38" width="88" height="70" rx="3" class="box b1"/>
+              <text x="42" y="33" class="lbl l1">person 0.97</text>
+              <rect x="186" y="80" width="96" height="56" rx="3" class="box b2"/>
+              <text x="188" y="75" class="lbl l2">defect 0.91</text>
+              <g class="skel">
+                <line x1="84" y1="50" x2="84" y2="78"/><line x1="84" y1="58" x2="66" y2="70"/><line x1="84" y1="58" x2="102" y2="70"/>
+                <line x1="84" y1="78" x2="72" y2="100"/><line x1="84" y1="78" x2="96" y2="100"/>
+                <circle cx="84" cy="46" r="4"/><circle cx="66" cy="70" r="3"/><circle cx="102" cy="70" r="3"/><circle cx="72" cy="100" r="3"/><circle cx="96" cy="100" r="3"/><circle cx="84" cy="78" r="3"/>
+              </g>
+              <rect x="10" y="10" width="300" height="26" class="scanline" fill="url(#scan)"/>
+            </svg>
+          </div>
+          <span class="tag" data-i18n="d.cv">Computer Vision 2D / 3D</span>
+          <h3 data-i18n="d.cv.h">Voir et mesurer le monde réel</h3>
+          <p data-i18n="d.cv.p">Nuages de points, recalage ICP/NDT, photogrammétrie ToF, détection de défauts et de squelettes avec YOLO11, SAM et Open3D.</p>
+        </article>
+
+        <article class="domain reveal" style="--c: var(--c-ai)">
+          <div class="illu">
+            <svg viewBox="0 0 320 180" class="svg-ai">
+              <path class="edge" d="M60 90 C 100 90, 110 90, 150 90"/>
+              <path class="edge" d="M170 90 C 210 90, 220 40, 260 40"/>
+              <path class="edge" d="M170 90 C 210 90, 220 90, 260 90"/>
+              <path class="edge" d="M170 90 C 210 90, 220 140, 260 140"/>
+              <circle cx="45" cy="90" r="18" class="node user"/><text x="45" y="94" class="nl">user</text>
+              <circle cx="160" cy="90" r="30" class="node llm"/><text x="160" y="87" class="nl big">LLM</text><text x="160" y="101" class="nl sm">agent</text>
+              <rect x="252" y="26" width="58" height="28" rx="7" class="node tool"/><text x="281" y="44" class="nl">MCP</text>
+              <rect x="252" y="76" width="58" height="28" rx="7" class="node tool"/><text x="281" y="94" class="nl">RAG</text>
+              <rect x="252" y="126" width="58" height="28" rx="7" class="node tool"/><text x="281" y="144" class="nl">SQL</text>
+              <circle r="4" class="pulse"><animateMotion dur="2.6s" repeatCount="indefinite" path="M60 90 C 100 90, 110 90, 150 90 L170 90 C 210 90, 220 40, 260 40"/></circle>
+              <circle r="4" class="pulse p2"><animateMotion dur="2.6s" begin="0.9s" repeatCount="indefinite" path="M60 90 C 100 90, 110 90, 150 90 L170 90 C 210 90, 220 140, 260 140"/></circle>
+            </svg>
+          </div>
+          <span class="tag" data-i18n="d.ai">Agents IA & LLM</span>
+          <h3 data-i18n="d.ai.h">Des agents qui agissent, en sécurité</h3>
+          <p data-i18n="d.ai.p">Appel d'outils, protocole MCP, RAG hybride, voice chat, avec garde-fous, validation humaine et évaluation chiffrée.</p>
+        </article>
+
+        <article class="domain reveal" style="--c: var(--c-cloud)">
+          <div class="illu">
+            <svg viewBox="0 0 320 180" class="svg-cloud">
+              <path class="cloud" d="M78 150 h170 a38 38 0 0 0 2-76 a52 52 0 0 0-98-14 a40 40 0 0 0-74 26 a32 32 0 0 0 0 64z"/>
+              <text x="70" y="64" class="cl mono">AWS · EKS</text>
+              <g class="pods">
+                <rect x="96" y="96" width="34" height="34" rx="7"/><rect x="140" y="96" width="34" height="34" rx="7"/>
+                <rect x="184" y="96" width="34" height="34" rx="7" class="pod-new"/><rect x="228" y="96" width="34" height="34" rx="7" class="pod-new n2"/>
+              </g>
+              <text x="113" y="117" class="pl">api</text><text x="157" y="117" class="pl">api</text><text x="201" y="117" class="pl pod-new">api</text><text x="245" y="117" class="pl pod-new n2">api</text>
+              <text x="160" y="170" class="cl mono hpa">HPA: 2 → 4 replicas</text>
+            </svg>
+          </div>
+          <span class="tag" data-i18n="d.cloud">Cloud & MLOps</span>
+          <h3 data-i18n="d.cloud.h">Des modèles servis à l'échelle</h3>
+          <p data-i18n="d.cloud.p">API FastAPI, AWS (EC2, S3, ECR, Bedrock, API Gateway), Kubernetes, Terraform, suivi des expériences avec MLflow et DVC.</p>
+        </article>
+
+        <article class="domain reveal" style="--c: var(--c-ops)">
+          <div class="illu">
+            <svg viewBox="0 0 320 180" class="svg-ops">
+              <line x1="30" y1="80" x2="290" y2="80" class="rail"/>
+              <line x1="30" y1="80" x2="290" y2="80" class="rail-fill"/>
+              <g class="stages">
+                <circle cx="30" cy="80" r="13" style="--d:0s"/><circle cx="95" cy="80" r="13" style="--d:.7s"/><circle cx="160" cy="80" r="13" style="--d:1.4s"/><circle cx="225" cy="80" r="13" style="--d:2.1s"/><circle cx="290" cy="80" r="13" style="--d:2.8s"/>
+              </g>
+              <g class="checks">
+                <path d="M24 80l4 4 8-8" style="--d:0s"/><path d="M89 80l4 4 8-8" style="--d:.7s"/><path d="M154 80l4 4 8-8" style="--d:1.4s"/><path d="M219 80l4 4 8-8" style="--d:2.1s"/><path d="M284 80l4 4 8-8" style="--d:2.8s"/>
+              </g>
+              <text x="30" y="116" class="sl">commit</text><text x="95" y="116" class="sl">test</text><text x="160" y="116" class="sl">build</text><text x="225" y="116" class="sl">scan</text><text x="290" y="116" class="sl">deploy</text>
+              <text x="160" y="152" class="sl mono term">$ git push → ✓ all checks passed</text>
+            </svg>
+          </div>
+          <span class="tag" data-i18n="d.ops">DevOps & CI/CD</span>
+          <h3 data-i18n="d.ops.h">Du commit à la production</h3>
+          <p data-i18n="d.ops.p">Docker, GitHub Actions, GitLab CI, tests automatisés, scan de sécurité, déploiement continu et GitOps.</p>
+        </article>
+      </div>
+
       <div class="about">
-        <div>
-          <p data-i18n="about.p1">Ingénieure IA spécialisée en <strong>vision par ordinateur 3D</strong> : nuages de points, photogrammétrie et détection de défauts. Pendant mon stage chez <strong>Builder Assist</strong>, j'ai développé la chaîne de perception d'un robot d'inspection de chantier, de l'acquisition avec une caméra ToF jusqu'au pilotage d'un bras robot Schneider Electric sous ROS 2.</p>
-          <p data-i18n="about.p2">Chez <strong>Octa Digital</strong>, j'ai mis en production des <strong>LLM et du RAG</strong> derrière des API FastAPI, avec tests automatisés et déploiement continu. Aujourd'hui je construis des <strong>agents IA</strong> qui utilisent des outils de façon fiable : garde-fous, traçabilité, évaluation chiffrée.</p>
+        <div class="about-text reveal">
+          <p data-i18n="about.p1">Spécialisée en <strong>vision par ordinateur 3D</strong>, j'ai développé chez <strong>Builder Assist</strong> la chaîne de perception d'un robot d'inspection de chantier, de l'acquisition avec une caméra ToF jusqu'au pilotage d'un bras robot Schneider Electric sous ROS 2.</p>
+          <p data-i18n="about.p2">Chez <strong>Octa Digital</strong>, j'ai mis en production des <strong>LLM, du RAG et des agents IA</strong> derrière des API FastAPI, avec tests automatisés et déploiement continu. Ce qui m'intéresse : des systèmes d'IA fiables, mesurés et déployés.</p>
         </div>
-        <ul class="focus">
-          <li><span class="tag t-3d" data-i18n="focus.3d">Vision 3D</span><span data-i18n="focus.3d.d">Recalage ICP/NDT, stitching, détection de défauts, photogrammétrie ToF</span></li>
-          <li><span class="tag t-agent" data-i18n="focus.agents">Agents & LLM</span><span data-i18n="focus.agents.d">MCP, tool calling, RAG hybride, garde-fous, voice chat</span></li>
-          <li><span class="tag t-ops">MLOps</span><span data-i18n="focus.ops.d">FastAPI, Docker, CI/CD, MLflow, DVC, AWS</span></li>
-          <li><span class="tag t-data" data-i18n="focus.robot">Robotique</span><span data-i18n="focus.robot.d">ROS 2, MoveIt 2, Gazebo, bras robot Schneider Electric</span></li>
-        </ul>
+        <div class="terminal reveal" aria-label="profile.yaml">
+          <div class="term-bar"><i></i><i></i><i></i><span class="mono">~/asma $ cat profile.yaml</span></div>
+          <pre class="mono" id="yaml"></pre>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- EXPERIENCE -->
+  <!-- ================= EXPERIENCE ================= -->
   <section id="experience" class="section alt">
     <div class="wrap">
-      <h2 class="title"><span class="num mono">02</span><span data-i18n="exp.title">Expérience</span></h2>
+      <p class="kicker mono">// experience</p>
+      <h2 class="title" data-i18n="exp.title">Expérience</h2>
       <ol class="timeline" id="timeline"></ol>
     </div>
   </section>
 
-  <!-- PROJECTS -->
+  <!-- ================= PROJECTS ================= -->
   <section id="projects" class="section">
     <div class="wrap">
-      <h2 class="title"><span class="num mono">03</span><span data-i18n="proj.title">Projets</span></h2>
+      <p class="kicker mono">// projects</p>
+      <h2 class="title" data-i18n="proj.title">Projets</h2>
       <p class="sub" data-i18n="proj.sub">Code public, résultats mesurés et README détaillés sur GitHub.</p>
       <div class="filters" id="filters" role="tablist"></div>
       <div class="cards" id="cards"></div>
-      <p class="more"><a href="https://github.com/asmakerkouri?tab=repositories" target="_blank" rel="noopener" data-i18n="proj.all">Tous les dépôts sur GitHub →</a></p>
+      <p class="more"><a class="btn btn-ghost" href="https://github.com/asmakerkouri?tab=repositories" target="_blank" rel="noopener" data-i18n="proj.all">Tous les dépôts sur GitHub →</a></p>
     </div>
   </section>
 
-  <!-- SKILLS -->
+  <!-- ================= SKILLS ================= -->
   <section id="skills" class="section alt">
     <div class="wrap">
-      <h2 class="title"><span class="num mono">04</span><span data-i18n="skills.title">Compétences</span></h2>
+      <p class="kicker mono">// stack</p>
+      <h2 class="title" data-i18n="skills.title">Compétences techniques</h2>
       <div class="skills" id="skillgrid"></div>
       <h3 class="h3" data-i18n="edu.title">Formation</h3>
       <div class="edu">
-        <div class="edu-item">
-          <b data-i18n="edu.m1">Master 2 Informatique : Services et Systèmes pour l'IoT (SSIO)</b>
+        <div class="edu-item reveal">
+          <span class="edu-icon">🎓</span>
+          <div><b data-i18n="edu.m1">Master 2 Informatique : Services et Systèmes pour l'IoT (SSIO)</b>
           <span>Université Gustave Eiffel, IGM · Paris · 2024 – 2026</span>
-          <small data-i18n="edu.m1.d">IA embarquée, systèmes distribués, réseaux</small>
+          <small data-i18n="edu.m1.d">IA embarquée, systèmes distribués, réseaux</small></div>
         </div>
-        <div class="edu-item">
-          <b data-i18n="edu.m2">Master 2 Informatique : Ingénierie des Systèmes d'Information Avancée (ISIA)</b>
+        <div class="edu-item reveal">
+          <span class="edu-icon">🎓</span>
+          <div><b data-i18n="edu.m2">Master 2 Informatique : Ingénierie des Systèmes d'Information Avancée (ISIA)</b>
           <span>Université Hassiba Ben Bouali · Algérie · 2020 – 2022</span>
-          <small data-i18n="edu.m2.d">Architectures logicielles, décisionnel, données massives</small>
+          <small data-i18n="edu.m2.d">Architectures logicielles, décisionnel, données massives</small></div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- CONTACT -->
+  <!-- ================= CONTACT ================= -->
   <section id="contact" class="section">
     <div class="wrap contact">
       <div>
-        <h2 class="title"><span class="num mono">05</span><span data-i18n="contact.title">Contact</span></h2>
-        <p class="lead" data-i18n="contact.lead">Un poste en IA, vision par ordinateur ou MLOps ? Écrivez-moi, je réponds rapidement.</p>
+        <p class="kicker mono">// contact</p>
+        <h2 class="title" data-i18n="contact.title">Travaillons ensemble</h2>
+        <p class="lead" data-i18n="contact.lead">Un poste en IA, computer vision, MLOps ou cloud ? Écrivez-moi, je réponds rapidement.</p>
         <ul class="contact-list">
           <li><span class="mono">email</span><a href="mailto:kerkouriasma@gmail.com">kerkouriasma@gmail.com</a></li>
           <li><span class="mono">linkedin</span><a href="https://www.linkedin.com/in/asma-kerkouri-443b6815a" target="_blank" rel="noopener">asma-kerkouri</a></li>
@@ -152,7 +258,7 @@
         <label><span data-i18n="form.email">E-mail</span><input name="email" type="email" required maxlength="150"></label>
         <label><span data-i18n="form.company">Entreprise (facultatif)</span><input name="company" maxlength="100"></label>
         <label><span data-i18n="form.message">Message</span><textarea name="message" rows="5" required maxlength="3000"></textarea></label>
-        <button class="btn" type="submit" data-i18n="form.send">Envoyer</button>
+        <button class="btn" type="submit"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg><span data-i18n="form.send">Envoyer</span></button>
         <p class="sent" id="sent" hidden data-i18n="form.sent">Merci, votre message a bien été envoyé.</p>
       </form>
     </div>
@@ -161,11 +267,12 @@
 
 <footer class="footer">
   <div class="wrap">
-    <span>© <span id="year"></span> Asma Kerkouri</span>
+    <span>© <span id="year"></span> Asma Kerkouri · <span class="mono">built with HTML, CSS & JS · hosted on GitHub Pages</span></span>
     <a href="#top" data-i18n="footer.top">Haut de page ↑</a>
   </div>
 </footer>
 
+<script src="assets/icons.js"></script>
 <script src="main.js"></script>
 </body>
 </html>

@@ -5,7 +5,8 @@ Personal portfolio of **Asma Kerkouri**, AI engineer (3D computer vision, AI age
 🌐 **https://asmakerkouri.github.io**
 
 - Bilingual French / English, follows the visitor's browser language
-- Experience, 14 open-source projects with measured results and filters by domain, skills, education
+- Animated hero (neural network, rotating 3D point cloud), expertise section with animated illustrations (computer vision, AI agents, cloud, CI/CD)
+- Experience timeline, 14 open-source projects with result images and filters, tech stack with logos, education
 - Resume download and contact form
 - Static site (HTML, CSS, vanilla JavaScript): no build step, hosted on GitHub Pages
 
