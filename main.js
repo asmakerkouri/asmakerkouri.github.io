@@ -474,7 +474,7 @@
     [...g.children].forEach((c, i) => { c.style.transitionDelay = `${Math.min(i, 6) * 90}ms`; });
   });
 
-  // tech icons orbiting around the avatar
+  // tech icons orbiting around the point cloud
   const orbit = document.getElementById("orbit");
   if (orbit) {
     const list = ["python", "pytorch", "opencv", "docker", "kubernetes", "AWS", "langchain", "githubactions"];
@@ -523,34 +523,83 @@
   }
   drawNet();
 
-  // ------------------------------------------- rotating 3D point cloud (hero)
+  // ---------------------------------- morphing 3D point cloud (hero visual)
+  // 1 400 points move between 4 shapes: a scanned sphere with a defect, a torus, a cube and a double helix
   const canvas = document.getElementById("cloud");
   const ctx = canvas.getContext("2d");
-  const pts = [];
-  for (let i = 0; i < 1100; i++) {           // noisy sphere with a "defect" bump, like a scanned surface
-    const u = Math.random() * 2 - 1, th = Math.random() * Math.PI * 2, s = Math.sqrt(1 - u * u);
-    const x = s * Math.cos(th), y = u, z = s * Math.sin(th);
-    const bump = Math.exp(-((x - 0.55) ** 2 + (y + 0.55) ** 2 + (z - 0.6) ** 2) / 0.05);
-    const r = 1 + 0.13 * bump + (Math.random() - 0.5) * 0.02;
-    pts.push([x * r, y * r, z * r, bump]);
+  const N = 1400;
+  const rnd = (a, b) => a + Math.random() * (b - a);
+  // place the defect so that it faces the camera in the middle of the sphere phase
+  let defectAt = [0.55, -0.45, 0.65];
+  function aimDefect(a) {
+    const fx = 0.35, fz = 0.75, fy = -0.45;   // desired direction after rotation (front, slightly up-right)
+    const n = Math.hypot(fx, fy, fz);
+    defectAt = [(fx * Math.cos(a) - fz * Math.sin(a)) / n, fy / n, (fx * Math.sin(a) + fz * Math.cos(a)) / n];
   }
-  let angle = 0;
+  aimDefect(0.005 * 90);
+  const SHAPES = [
+    { name: "3D scan · sphere + defect", gen: () => {
+      const u = rnd(-1, 1), th = rnd(0, 2 * Math.PI), s = Math.sqrt(1 - u * u);
+      const x = s * Math.cos(th), y = u, z = s * Math.sin(th);
+      const c = defectAt;
+      const bump = Math.exp(-((x - c[0]) ** 2 + (y - c[1]) ** 2 + (z - c[2]) ** 2) / 0.05);
+      const r = 1 + 0.22 * bump + rnd(-0.01, 0.01);
+      return [x * r, y * r, z * r, bump > 0.25 ? 1 : 0]; } },
+    { name: "mesh · torus", gen: () => {
+      const a = rnd(0, 2 * Math.PI), b = rnd(0, 2 * Math.PI), R = 0.72, r = 0.3;
+      return [(R + r * Math.cos(b)) * Math.cos(a), r * Math.sin(b), (R + r * Math.cos(b)) * Math.sin(a), 0]; } },
+    { name: "voxel grid · cube", gen: () => {
+      const f = Math.floor(rnd(0, 6)), u = rnd(-0.75, 0.75), v = rnd(-0.75, 0.75), k = f % 2 ? 0.75 : -0.75;
+      const p = f < 2 ? [k, u, v] : f < 4 ? [u, k, v] : [u, v, k];
+      return [...p, 0]; } },
+    { name: "neural net · double helix", gen: () => {
+      const t = rnd(-1, 1), strand = Math.random() < 0.5 ? 0 : Math.PI, a = t * 3 * Math.PI + strand;
+      if (Math.random() < 0.18) { const s = rnd(-1, 1); return [0.5 * Math.cos(t * 3 * Math.PI) * s, t * 1.1, 0.5 * Math.sin(t * 3 * Math.PI) * s, 0]; }
+      return [0.5 * Math.cos(a), t * 1.1, 0.5 * Math.sin(a), 0]; } },
+  ];
+  const targets = SHAPES.map((sh) => Array.from({ length: N }, sh.gen));
+  const pts = targets[0].map((p) => [...p]);
+  const shapeLabel = document.getElementById("shape");
+  let shapeIdx = 0, from = targets[0], morphT = 1, angle = 0;
+  function nextShape() {
+    from = pts.map((p) => [...p]);
+    shapeIdx = (shapeIdx + 1) % SHAPES.length;
+    if (shapeIdx === 0) { aimDefect(angle + 0.005 * 200); targets[0] = Array.from({ length: N }, SHAPES[0].gen); }
+    morphT = 0;
+    if (shapeLabel) shapeLabel.textContent = `${SHAPES[shapeIdx].name} · ${N.toLocaleString("fr-FR")} pts`;
+  }
+  if (shapeLabel) shapeLabel.textContent = `${SHAPES[0].name} · ${N.toLocaleString("fr-FR")} pts`;
+  if (!still) setInterval(nextShape, 5000);
+  const bbox = document.querySelector(".bbox");
+  const ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2);
   function drawCloud() {
     const w = canvas.clientWidth, h = canvas.clientHeight, dpr = window.devicePixelRatio || 1;
     if (canvas.width !== Math.round(w * dpr)) { canvas.width = w * dpr; canvas.height = h * dpr; }
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.clearRect(0, 0, w, h);
-    const R = Math.min(w, h) * 0.4, ca = Math.cos(angle), sa = Math.sin(angle), ct = Math.cos(0.35), st = Math.sin(0.35);
-    for (const [x, y, z, b] of pts) {
-      const x1 = x * ca + z * sa, z1 = -x * sa + z * ca;
-      const y1 = y * ct - z1 * st, z2 = y * st + z1 * ct;
+    if (morphT < 1) morphT = Math.min(1, morphT + 0.012);
+    const e = ease(morphT), to = targets[shapeIdx];
+    const R = Math.min(w, h) * 0.34, ca = Math.cos(angle), sa = Math.sin(angle), ct = Math.cos(0.4), st = Math.sin(0.4);
+    let dx = 0, dy = 0, dz = 0, dn = 0;
+    for (let i = 0; i < N; i++) {
+      const p = pts[i], f = from[i], t = to[i];
+      p[0] = f[0] + (t[0] - f[0]) * e; p[1] = f[1] + (t[1] - f[1]) * e; p[2] = f[2] + (t[2] - f[2]) * e;
+      p[3] = morphT === 1 ? t[3] : 0;
+      const x1 = p[0] * ca + p[2] * sa, z1 = -p[0] * sa + p[2] * ca;
+      const y1 = p[1] * ct - z1 * st, z2 = p[1] * st + z1 * ct;
       const depth = (z2 + 1.2) / 2.4;
-      if (b > 0.3) ctx.fillStyle = `rgba(248, 113, 113, ${0.35 + 0.6 * depth})`;
-      else ctx.fillStyle = `hsla(${200 + 60 * depth}, 90%, 70%, ${0.1 + 0.6 * depth})`;
-      const sz = 1.1 + depth * 1.7;
+      ctx.fillStyle = p[3] ? `rgba(255, 99, 99, ${0.55 + 0.45 * depth})` : `hsla(${195 + 75 * depth}, 90%, 68%, ${0.12 + 0.75 * depth})`;
+      const sz = p[3] ? 2.2 + depth * 1.6 : 1 + depth * 1.9;
       ctx.fillRect(w / 2 + x1 * R, h / 2 + y1 * R, sz, sz);
+      if (p[3]) { dx += x1; dy += y1; dz += z2; dn++; }
     }
-    angle += 0.004;
+    // the detection box follows the defect while it faces the camera
+    if (bbox) {
+      const visible = dn > 0 && dz / dn > 0.15;
+      bbox.style.opacity = visible ? 1 : 0;
+      if (dn) { bbox.style.left = `${((w / 2 + (dx / dn) * R) / w) * 100}%`; bbox.style.top = `${((h / 2 + (dy / dn) * R) / h) * 100}%`; }
+    }
+    angle += 0.005;
     if (!still) requestAnimationFrame(drawCloud);
   }
   drawCloud();

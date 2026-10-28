@@ -22,7 +22,7 @@
 
 <header class="nav" id="top">
   <div class="wrap nav-inner">
-    <a class="logo" href="#top" aria-label="Asma Kerkouri"><span class="logo-mark">AK</span><span class="logo-txt">asma<span>.</span>ai</span></a>
+    <a class="logo" href="#top" aria-label="Asma Kerkouri"><span class="logo-mark"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 21 7v10l-9 5-9-5V7z"/><circle cx="12" cy="12" r="2.6"/><path d="M12 9.4V5M14.3 13.3l3.9 2.2M9.7 13.3l-3.9 2.2"/></svg></span><span class="logo-txt">Asma Kerkouri<span>.</span></span></a>
     <nav class="links" id="links">
       <a href="#expertise" data-i18n="nav.expertise">Expertise</a>
       <a href="#experience" data-i18n="nav.experience">Expérience</a>
@@ -65,10 +65,7 @@
         <div class="ring r1"></div><div class="ring r2"></div>
         <div class="orbit" id="orbit"></div>
         <canvas id="cloud"></canvas>
-        <div class="avatar">
-          <img src="assets/photo.jpg" alt="" onerror="this.remove()">
-          <span class="initials">AK</span>
-        </div>
+        <div class="hud mono"><span class="hud-dot"></span><span id="shape">point cloud · sphere</span></div>
         <div class="bbox"><span class="bbox-label mono">crack · 0.94</span></div>
         <div class="float f1 mono"><i class="ok"></i>docker build ✓</div>
         <div class="float f2 mono"><i class="ai"></i>agent → tool_call</div>

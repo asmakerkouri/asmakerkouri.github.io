@@ -37,7 +37,8 @@ svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width:
 .nav-inner { display: flex; align-items: center; gap: 24px; height: 68px; }
 .logo { display: flex; align-items: center; gap: 10px; color: var(--text); font-family: var(--display); font-weight: 700; }
 .logo:hover { text-decoration: none; }
-.logo-mark { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 10px; background: var(--grad); color: #071021; font-size: .95rem; }
+.logo-mark { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 10px; background: var(--grad); color: #071021; }
+.logo-mark svg { width: 22px; height: 22px; stroke-width: 1.8; }
 .logo-txt { font-size: 1.1rem; }
 .logo-txt span { color: var(--accent); }
 .links { display: flex; gap: 26px; margin-left: auto; }
@@ -86,17 +87,15 @@ h1 { font-family: var(--display); font-size: clamp(2.8rem, 6.5vw, 4.6rem); line-
 .ring { position: absolute; inset: 6%; border-radius: 50%; border: 1px dashed rgba(56, 189, 248, .25); animation: spin 40s linear infinite; }
 .r2 { inset: 0; border-style: solid; border-color: rgba(129, 140, 248, .12); animation-duration: 70s; animation-direction: reverse; }
 @keyframes spin { to { transform: rotate(360deg); } }
-.avatar { position: absolute; inset: 26%; border-radius: 50%; overflow: hidden; z-index: 2; padding: 3px; background: var(--grad); box-shadow: 0 0 70px rgba(56, 189, 248, .35); }
-.avatar::before { content: ""; position: absolute; inset: 3px; border-radius: 50%; background: radial-gradient(circle at 30% 25%, #1B2E55, #0A1120 70%); }
-.avatar img { position: absolute; inset: 3px; width: calc(100% - 6px); height: calc(100% - 6px); border-radius: 50%; object-fit: cover; z-index: 2; }
-.initials { position: relative; display: grid; place-items: center; height: 100%; font: 700 clamp(2.4rem, 6vw, 3.6rem) var(--display); background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
-.bbox { position: absolute; left: 66%; top: 14%; width: 22%; height: 18%; border: 2px solid #F87171; border-radius: 4px; z-index: 3; animation: bbox 6s ease-in-out infinite; }
+.hud { position: absolute; left: 50%; bottom: 3%; transform: translateX(-50%); z-index: 4; display: flex; align-items: center; gap: 8px; font-size: .74rem; color: #BAE6FD; background: rgba(10, 17, 32, .85); border: 1px solid var(--line-strong); border-radius: 999px; padding: 6px 14px; white-space: nowrap; }
+.hud-dot { width: 7px; height: 7px; border-radius: 50%; background: #38BDF8; box-shadow: 0 0 10px #38BDF8; animation: pulse 2s infinite; }
+.bbox { position: absolute; left: 66%; top: 14%; width: 16%; height: 16%; transform: translate(-50%, -50%); border: 2px solid #F87171; border-radius: 4px; z-index: 3; opacity: 0; transition: opacity .4s; box-shadow: 0 0 14px rgba(248, 113, 113, .45); }
 .bbox-label { position: absolute; top: -22px; left: -2px; background: #F87171; color: #1A0505; font-size: .68rem; font-weight: 600; padding: 1px 6px; border-radius: 3px; white-space: nowrap; }
 @keyframes bbox { 0%, 15% { opacity: 0; transform: scale(1.3); } 25%, 80% { opacity: 1; transform: scale(1); } 100% { opacity: 0; } }
 .float { position: absolute; z-index: 4; display: flex; align-items: center; gap: 8px; font-size: .74rem; color: var(--text); background: rgba(10, 17, 32, .85); border: 1px solid var(--line-strong); border-radius: 10px; padding: 7px 11px; backdrop-filter: blur(6px); animation: bob 6s ease-in-out infinite; white-space: nowrap; }
 .float i { width: 8px; height: 8px; border-radius: 50%; }
 .float .ok { background: var(--c-ops); } .float .ai { background: var(--c-ai); } .float .cv { background: var(--c-cv); }
-.f1 { left: -6%; top: 18%; } .f2 { right: -8%; bottom: 22%; animation-delay: -2s; } .f3 { left: 2%; bottom: 6%; animation-delay: -4s; }
+.f1 { left: -6%; top: 18%; } .f2 { right: -8%; bottom: 22%; animation-delay: -2s; } .f3 { left: -4%; bottom: 16%; animation-delay: -4s; }
 @keyframes bob { 50% { transform: translateY(-10px); } }
 
 .stats { position: relative; display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 60px; }
