@@ -259,6 +259,8 @@
   function renderMarquee() {
     const one = MARQUEE.map((s) => { const i = icon(s); return `<span class="tech">${i.svg}${esc(i.title)}</span>`; }).join("");
     document.getElementById("track").innerHTML = one + one;
+    const two = [...MARQUEE].reverse().map((s) => { const i = icon(s); return `<span class="tech">${i.svg}${esc(i.title)}</span>`; }).join("");
+    document.getElementById("track2").innerHTML = two + two;
   }
 
   function renderTimeline() {
@@ -282,7 +284,7 @@
     const list = PROJECTS.filter((p) => filter === "all" || p.cat === filter || p.also === filter)
       .sort((a, b) => (filter === "all" ? (b.star ? 1 : 0) - (a.star ? 1 : 0) : 0));
     document.getElementById("cards").innerHTML = list.map((p) => `
-      <article class="card" style="--c:${COLOR[p.cat]}">
+      <article class="card tilt" style="--c:${COLOR[p.cat]}">
         <a class="thumb" href="${GH + p.repo}" target="_blank" rel="noopener" aria-label="${esc(L(p.name))}">
           <span class="tag">${esc(L(CATS[p.cat]))}</span>
           ${p.img ? `<img src="assets/projects/${p.repo}.jpg" alt="${esc(L(p.name))}">` : ART[p.art]}
@@ -302,18 +304,36 @@
 
   function renderSkills() {
     document.getElementById("skillgrid").innerHTML = SKILLS.map((g) => `
-      <div class="skill reveal" style="--c:${g.c}">
+      <div class="skill reveal tilt" style="--c:${g.c}">
         <h4><span class="ico">${g.i}</span>${esc(L(g.t))}</h4>
         <div class="logos">${g.items.map((s) => { const i = icon(s); return `<span class="logo-chip">${i.svg}${esc(i.title)}</span>`; }).join("")}</div>
       </div>`).join("");
   }
 
+  let yamlTimer;
   function renderYaml() {
-    const html = YAML[lang].map(([k, v]) => {
+    const html = `<span class="c"># ${lang === "fr" ? "profil" : "profile"}</span>\n` + YAML[lang].map(([k, v]) => {
       const val = v === "true" ? `<span class="b">${v}</span>` : `<span class="s">${esc(v)}</span>`;
       return `<span class="k">${k}</span>: ${val}`;
     }).join("\n");
-    document.getElementById("yaml").innerHTML = `<span class="c"># ${lang === "fr" ? "profil" : "profile"}</span>\n` + html;
+    const pre = document.getElementById("yaml");
+    clearTimeout(yamlTimer);
+    if (still) { pre.innerHTML = html; return; }
+    // type the YAML like a terminal: reveal the text character by character, keeping the HTML tags intact
+    const tokens = html.match(/<[^>]+>|&[a-z]+;|[^<&]/g);
+    let i = 0, out = "";
+    const step = () => {
+      let n = 0;
+      while (i < tokens.length && n < 2) { out += tokens[i]; if (tokens[i][0] !== "<") n++; i++; }
+      pre.innerHTML = out + '<span class="caret">▍</span>';
+      if (i < tokens.length) yamlTimer = setTimeout(step, 18);
+      else yamlTimer = setTimeout(renderYaml, 9000); // replay
+    };
+    const start = () => { out = ""; i = 0; step(); };
+    if ("IntersectionObserver" in window) {
+      const o = new IntersectionObserver((es) => { if (es[0].isIntersecting) { o.disconnect(); start(); } });
+      o.observe(pre);
+    } else start();
   }
 
   // typing effect
@@ -409,6 +429,61 @@
     pc.innerHTML = dots;
   }
 
+
+  // ------------------------------------------------------ interactive motion
+  const mouse = { x: -9999, y: -9999, inHero: false };
+  const glow = document.getElementById("glow");
+  const hero = document.querySelector(".hero");
+  const visual = document.querySelector(".hero-visual");
+  window.addEventListener("pointermove", (e) => {
+    mouse.x = e.clientX; mouse.y = e.clientY;
+    if (glow) glow.style.transform = `translate(${e.clientX - 200}px, ${e.clientY - 200}px)`;
+    const r = hero.getBoundingClientRect();
+    mouse.inHero = e.clientY >= r.top && e.clientY <= r.bottom;
+    if (visual && mouse.inHero && !still) {
+      const dx = (e.clientX / innerWidth - 0.5), dy = (e.clientY / innerHeight - 0.5);
+      visual.style.transform = `perspective(900px) rotateY(${dx * 14}deg) rotateX(${-dy * 14}deg) translate(${dx * 14}px, ${dy * 14}px)`;
+    }
+  }, { passive: true });
+
+  // 3D tilt on cards
+  if (!still && matchMedia("(hover: hover)").matches) {
+    document.addEventListener("pointermove", (e) => {
+      const el = e.target.closest(".tilt");
+      document.querySelectorAll(".tilt.tilting").forEach((t) => { if (t !== el) { t.classList.remove("tilting"); t.style.transform = ""; } });
+      if (!el) return;
+      const r = el.getBoundingClientRect();
+      const px = (e.clientX - r.left) / r.width - 0.5, py = (e.clientY - r.top) / r.height - 0.5;
+      el.classList.add("tilting");
+      el.style.transform = `perspective(900px) rotateX(${-py * 7}deg) rotateY(${px * 9}deg) translateY(-4px)`;
+      el.style.setProperty("--mx", `${(px + 0.5) * 100}%`);
+      el.style.setProperty("--my", `${(py + 0.5) * 100}%`);
+    }, { passive: true });
+    // magnetic buttons
+    document.querySelectorAll(".btn").forEach((b) => {
+      b.addEventListener("pointermove", (e) => {
+        const r = b.getBoundingClientRect();
+        b.style.transform = `translate(${(e.clientX - r.left - r.width / 2) * 0.18}px, ${(e.clientY - r.top - r.height / 2) * 0.3}px)`;
+      });
+      b.addEventListener("pointerleave", () => { b.style.transform = ""; });
+    });
+  }
+
+  // staggered reveal inside grids
+  document.querySelectorAll(".domains, .skills, .timeline, .stats").forEach((g) => {
+    [...g.children].forEach((c, i) => { c.style.transitionDelay = `${Math.min(i, 6) * 90}ms`; });
+  });
+
+  // tech icons orbiting around the avatar
+  const orbit = document.getElementById("orbit");
+  if (orbit) {
+    const list = ["python", "pytorch", "opencv", "docker", "kubernetes", "AWS", "langchain", "githubactions"];
+    orbit.innerHTML = list.map((s, k) => {
+      const i = icon(s);
+      return `<span class="orb" style="--a:${(360 / list.length) * k}deg" title="${esc(i.title)}"><span class="orb-in">${i.svg || esc(i.title)}</span></span>`;
+    }).join("");
+  }
+
   // ------------------------------------------------ neural-network background
   const net = document.getElementById("net");
   const nctx = net.getContext("2d");
@@ -433,6 +508,16 @@
       }
       nctx.fillStyle = "rgba(125, 211, 252, .6)";
       nctx.fillRect(nodes[i].x * w - 1, nodes[i].y * h - 1, 2, 2);
+      if (mouse.inHero) {   // the network reacts to the cursor
+        const r = net.getBoundingClientRect();
+        const mx = mouse.x - r.left, my = mouse.y - r.top;
+        const dx = nodes[i].x * w - mx, dy = nodes[i].y * h - my, d = Math.hypot(dx, dy);
+        if (d < 190) {
+          nctx.strokeStyle = `rgba(192, 132, 252, ${0.55 * (1 - d / 190)})`;
+          nctx.beginPath(); nctx.moveTo(nodes[i].x * w, nodes[i].y * h); nctx.lineTo(mx, my); nctx.stroke();
+          nodes[i].x += (dx / d) * 0.0009; nodes[i].y += (dy / d) * 0.0009;
+        }
+      }
     }
     if (!still) requestAnimationFrame(drawNet);
   }

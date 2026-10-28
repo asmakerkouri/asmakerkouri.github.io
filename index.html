@@ -18,6 +18,7 @@
 </head>
 <body>
 <div class="progress" id="progress"></div>
+<div class="cursor-glow" id="glow" aria-hidden="true"></div>
 
 <header class="nav" id="top">
   <div class="wrap nav-inner">
@@ -62,6 +63,7 @@
 
       <div class="hero-visual" aria-hidden="true">
         <div class="ring r1"></div><div class="ring r2"></div>
+        <div class="orbit" id="orbit"></div>
         <canvas id="cloud"></canvas>
         <div class="avatar">
           <img src="assets/photo.jpg" alt="" onerror="this.remove()">
@@ -85,6 +87,7 @@
   <!-- tech marquee -->
   <div class="marquee" aria-label="Technologies">
     <div class="track" id="track"></div>
+    <div class="track rev" id="track2"></div>
   </div>
 
   <!-- ================= EXPERTISE ================= -->
@@ -94,7 +97,7 @@
       <h2 class="title" data-i18n="exp4.title">Quatre domaines, un seul objectif&nbsp;: de l'IA qui tourne en production</h2>
       <div class="domains">
 
-        <article class="domain reveal" style="--c: var(--c-cv)">
+        <article class="domain reveal tilt" style="--c: var(--c-cv)">
           <div class="illu">
             <svg viewBox="0 0 320 180" class="svg-cv">
               <defs><linearGradient id="scan" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#38BDF8" stop-opacity="0"/><stop offset="1" stop-color="#38BDF8" stop-opacity=".55"/></linearGradient></defs>
@@ -117,7 +120,7 @@
           <p data-i18n="d.cv.p">Nuages de points, recalage ICP/NDT, photogrammétrie ToF, détection de défauts et de squelettes avec YOLO11, SAM et Open3D.</p>
         </article>
 
-        <article class="domain reveal" style="--c: var(--c-ai)">
+        <article class="domain reveal tilt" style="--c: var(--c-ai)">
           <div class="illu">
             <svg viewBox="0 0 320 180" class="svg-ai">
               <path class="edge" d="M60 90 C 100 90, 110 90, 150 90"/>
@@ -138,7 +141,7 @@
           <p data-i18n="d.ai.p">Appel d'outils, protocole MCP, RAG hybride, voice chat, avec garde-fous, validation humaine et évaluation chiffrée.</p>
         </article>
 
-        <article class="domain reveal" style="--c: var(--c-cloud)">
+        <article class="domain reveal tilt" style="--c: var(--c-cloud)">
           <div class="illu">
             <svg viewBox="0 0 320 180" class="svg-cloud">
               <path class="cloud" d="M78 150 h170 a38 38 0 0 0 2-76 a52 52 0 0 0-98-14 a40 40 0 0 0-74 26 a32 32 0 0 0 0 64z"/>
@@ -156,7 +159,7 @@
           <p data-i18n="d.cloud.p">API FastAPI, AWS (EC2, S3, ECR, Bedrock, API Gateway), Kubernetes, Terraform, suivi des expériences avec MLflow et DVC.</p>
         </article>
 
-        <article class="domain reveal" style="--c: var(--c-ops)">
+        <article class="domain reveal tilt" style="--c: var(--c-ops)">
           <div class="illu">
             <svg viewBox="0 0 320 180" class="svg-ops">
               <line x1="30" y1="80" x2="290" y2="80" class="rail"/>
