@@ -54,7 +54,7 @@
 
   const EXPERIENCE = [
     { title: ["Ingénieure IA freelance (agents IA et LLM)", "Freelance AI Engineer (AI agents & LLMs)"], co: "Octa Digital",
-      meta: ["Freelance · juin 2026 – sept. 2026 · Télétravail (Londres, Royaume-Uni)", "Freelance · Jun 2026 – Sep 2026 · Remote (London, UK)"],
+      meta: ["Freelance en télétravail · juin 2026 – sept. 2026 · Entreprise basée à Londres (Royaume-Uni)", "Remote freelance · Jun 2026 – Sep 2026 · Company based in London (UK)"],
       points: [
         ["Agent IA conversationnel pour l'application de suivi de projets des clients : un LLM avec appel d'outils répond sur l'avancement, les livrables et les échéances, en français et en anglais.",
          "Conversational AI agent for the clients' project-tracking app: an LLM with tool calling answers questions on progress, deliverables and deadlines, in French and English."],
