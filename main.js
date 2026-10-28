@@ -34,6 +34,17 @@
   document.querySelectorAll("[data-i18n]").forEach((el) => { FR[el.dataset.i18n] = el.innerHTML; });
 
   const EXPERIENCE = [
+    { title: ["Ingénieure IA freelance (agents IA et LLM)", "Freelance AI Engineer (AI agents & LLMs)"], co: "Octa Digital",
+      meta: ["Freelance · juin 2026 – sept. 2026 · Télétravail (Londres, Royaume-Uni)", "Freelance · Jun 2026 – Sep 2026 · Remote (London, UK)"],
+      points: [
+        ["Agent IA conversationnel pour l'application de suivi de projets des clients : un LLM avec appel d'outils répond sur l'avancement, les livrables et les échéances, en français et en anglais.",
+         "Conversational AI agent for the clients' project-tracking app: an LLM with tool calling answers questions on progress, deliverables and deadlines, in French and English."],
+        ["RAG sur la documentation des projets (BM25 + vecteurs) et garde-fous : lecture seule, masquage des données sensibles, traçabilité.",
+         "RAG over project documentation (BM25 + vectors) and guardrails: read-only access, sensitive-data masking, traceability."],
+        ["API FastAPI, conteneurisation Docker et déploiement continu avec GitHub Actions.",
+         "FastAPI service, Docker packaging and continuous deployment with GitHub Actions."],
+      ],
+      chips: ["LLM", "Tool calling", "RAG", "FastAPI", "Docker", "GitHub Actions"] },
     { title: ["Ingénieure Vision 3D et Robotique", "3D Vision & Robotics Engineer"], co: "Builder Assist",
       meta: ["Stage de fin d'études · nov. 2025 – mai 2026 · Toulouse", "Final-year internship · Nov 2025 – May 2026 · Toulouse"],
       points: [
